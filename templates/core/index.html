@@ -1,0 +1,205 @@
+{% extends 'partials/base.html'%}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+
+
+<head>
+    <style>
+
+        button.add-to-cart-btn{
+            color: #3bb77e;
+            border: none;
+        }
+
+        button.add-to-cart-btn:hover{
+            color: white;
+        }
+
+        .add-favoris {
+            display: flex;
+            justify-content: space-between;
+        }
+        .add-favoris button{
+          display: block;
+          flex: 1;
+        }
+
+        @media (max-width:1040px){
+            .widget-category-2 {
+                display: none !important;
+            }
+        }
+        @media (max-width:767px){
+            .better {
+                display: none;
+            }
+        }
+
+        
+    </style>
+</head>
+
+
+
+<main class="main">
+    <div class="container mb-30">
+        <div class="row flex-row-reverse">
+            <div class="">
+                <section class="home-slider position-relative mb-30">
+                    <div class="home-slide-cover mt-30">
+                        <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
+                            <div class="single-hero-slider single-animation-wrap"
+                                style="background-image: url({% static 'assets/imgs/slider/honey-products-composition-honey-jar-honeycomb-tea-special-spoon-white-background.jpg' %})">
+                                <div class="slider-content">
+                                    <h1 class="display-2 mb-40">
+                                        Don’t miss amazing<br /> hot deals
+                                    </h1>
+                                    <p class="mb-65">
+
+                                    Subscribe for the daily newsletter!</p>
+                                    <form class="form-subcriber d-flex" method="POST" action="{% url 'core:subscribe' %}">
+                                        {% csrf_token %}
+                                        <input type="email" placeholder="Your emaill address" name="email" />
+                                        <button class="btn" type="submit">Subscribe</button>
+                                    </form> 
+                                </div>
+                            </div>
+                            <div class="single-hero-slider single-animation-wrap"
+                                style="background-image: url({% static 'assets/imgs/slider/honey-bee-pollen-honeycomb-arranged-row-wooden-table.jpg' %})">
+                                <div class="slider-content">
+                                    <h1 class="display-2 mb-40">
+                                        Golden Honey<br /> Big discount
+                                    </h1>
+                                    <p class="mb-65">Save up to 50% off on your first order</p>
+                                    <a class="btn" href="{% url 'core:deals' %}">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slider-arrow hero-slider-1-arrow"></div>
+                    </div>
+                </section>
+                <!--End hero-->
+                
+    <section class="popular-categories section-padding">
+        <div class="container">
+            <div class="section-title">
+                <div class="title">
+                    <h3>Shop by Categories</h3>
+                </div>
+                <p class="show-all better">
+                    Shahd Honey makes everything better
+                </p>
+                <div class="slider-arrow slider-arrow-2 flex-right carausel-8-columns-arrow"
+                    id="carausel-8-columns-arrows"></div>
+            </div>
+            <div class="carausel-8-columns-cover position-relative">
+                <div class="carausel-8-columns" id="carausel-8-columns">
+                    {% for c in categories %}
+                    <div class="card-1">
+                        <figure class="img-hover-scale overflow-hidden">
+                            <a href="{% url 'core:category-product-list' c.cid %}"><img
+                                    src="{{ c.image.url }}" alt="" /></a>
+                        </figure>
+                        <h6>
+                            <a href="{% url 'core:category-product-list' c.cid %}">{{c.title}}</a>
+                        </h6>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+                <section class="product-tabs section-padding position-relative">
+                    <div class="section-title style-2">
+                        <h3>Popular Products</h3>
+                        
+                    </div>
+                    <!--End nav-tabs-->
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
+                            <div class="row product-grid-4">
+                                {% for p in products %}
+                                <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                                    <div class="product-cart-wrap mb-30">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="{% url 'core:product-detail' p.pid %}">
+                                                    <img class="default-img" src="{{p.image.url}}" alt="" />
+                                                    <img class="hover-img" src="{{p.image.url}}" alt="" />
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Add To Wishlist"  class="action-btn add-to-wishlist" data-product-item="{{p.id}}"><i class="fi-rs-heart"></i></a>
+                                                <!-- <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i
+                                                        class="fi-rs-shuffle"></i></a> -->
+                                                <a  href="{% url 'core:product-detail' p.pid %}"   aria-label="Quick view" class="action-btn"
+                                                    ><i class="fi-rs-eye"></i></a>
+                                            </div>
+                                            {% if p.deals %}
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="hot">-{{ p.get_precentage | floatformat:0 }}%</span>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="{% url 'core:category-product-list' p.category.cid %}">{{p.category.title}}</a>
+                                            </div>
+                                            <h2><a href="{% url 'core:product-detail' p.pid %}">{{ p.title }}</a>
+                                            </h2>
+                                            <div class="product-rate-cover">
+                                                <div class="product-rate d-inline-block">
+                                                    <div class="product-rating" style="width: 90%"></div>
+                                                </div>
+                                                <span class="font-small ml-5 text-muted"> (4.0)</span>
+                                            </div>
+                                            <div class="product-card-bottom">
+                                                <div class="product-price">
+                                                    <span>$</span><span class="current-product-price-{{p.id}}">{{ p.price }}</span>
+                                                    {% if p.deals %}
+                                                    <span class="old-price">${{ p.old_price }}</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="product-card-bottom add-cart">
+                                                <div class="add-cart">
+                                                    <input type="hidden" value="1" name="" id="product-quantity" class="w-25 mb-20 product-quantity-{{p.id}}" max="{{ p.total_weight }}">
+                                                    <input type="hidden" name="" id="" class="product-pid-{{p.id}}" value="{{p.pid}}">
+                                                    <input type="hidden" name="" id="" class="product-image-{{p.id}}" value="{{p.image.url}}">
+                                                    <input type="hidden" class="product-id-{{p.id}}" value="{{ p.id }}" name="" id="">
+                                                    <input type="hidden" class="product-title-{{p.id}}" value="{{ p.title }}" name="" id="">
+                                                    <div class="add-favoris" >
+                                                        <button class="add add-to-cart-btn b-none" data-index="{{ p.id }}" ><i
+                                                        class="fi-rs-shopping-cart mr-5" id="add-to-cart-btn"></i>Add </button>
+                                                        <button style="border: none; background: none;" class="add-to-wishlist" data-product-item="{{p.id}}"><i class="fi-rs-heart" style="fill: aqua;"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <!--end product card-->
+                            </div>
+                            <!--End product-grid-4-->
+                        </div>
+                        <!--En tab one-->
+
+                    </div>
+                    <!--End tab-content-->
+                </section>
+                <!--Products Tabs-->
+              
+             
+            </div>
+           
+        </div>
+    </div>
+    
+    <!--End category slider-->
+</main>
+
+
+{% endblock content %}

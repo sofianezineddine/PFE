@@ -1,0 +1,137 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <style>
+        .fr {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            
+        }
+        .fr > div {
+            flex-basis: 50%;
+        }
+
+        @media (max-width:991px){
+            .fr {
+                flex-direction: column;
+            }
+            .fr > div {
+                flex-basis: 100%;
+            }
+
+            .fr > div:first-of-type {
+                margin-bottom: 20px;
+            }
+
+            .next {
+                text-align: center !important;
+            }
+        }
+
+        @media (min-width:992px){
+            .fr > div:first-of-type {
+                border-right:1px solid #c8c8c8;
+                padding-right: 20px;
+            }
+            .fr > div:nth-of-type(2) {
+                padding-left: 20px;
+            }
+        }
+
+
+
+    </style>
+</head>
+<main class="main" id="cart-list">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                <span></span> <a href="{% url 'core:cart' %}"> Cart</a>
+                <span></span> Save Checkout Info
+            </div>
+        </div>
+    </div>
+    <div class="container mb-80 mt-50">
+            <form action="{% url 'core:save_checkout_info' %}" method="POST" id="form" class="fr">
+                {% csrf_token %}
+                <div>
+                    <h4 class="mb-30">Bio Data</h4>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label for="">Full Name</label>
+                            <input type="text" required="" name="full_name" value="{{request.user.username|title}}"
+                                placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="">Email</label>
+                            <input type="text" required="" name="email" placeholder="mobile *" required
+                                value="{{request.user.email}}">
+                        </div>
+                        
+                        <div class="form-group col-lg-6">
+                            <label for="">Mobile</label>
+                            {% if request.user.profile.phone %}
+                            <input type="text" name="mobile" value="{{request.user.profile.phone}}" required
+                                placeholder="Address *">
+                            {% else %}    
+                            <input type="text" name="mobile" value="" required
+                                    placeholder="Mobile *">
+                            {% endif %}    
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="mb-30">Shipping Details</h4>
+                    {% if address is not None %}
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label for="">Address</label>
+                            <input type="text" name="address" value="{{address.address}}" placeholder="Address" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="">City</label>
+                            <input type="text" name="city" placeholder="City *" value="{{address.state}}" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="">Postal Code</label>
+                            <input type="text" name="cp" value="{{address.cp}}" placeholder="Code postal *" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="">Country</label>
+                            <input type="text" name="country" value="{{address.country}}" placeholder="Country *" required>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label for="">Address</label>
+                            <input type="text" name="address" value="" placeholder="Address" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="">City</label>
+                            <input type="text" name="city" placeholder="City *" value="" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="">Postal Code</label>
+                            <input type="text" name="cp" value="" placeholder="Code postal *" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="">Country</label>
+                            <input type="text" name="country" value="" placeholder="Country *" required>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+              
+            </form>
+            <div style="text-align: right; margin-top: 20px;" class="next">
+                <button type="submit" class="btn mb-20" form="form">Next<i
+                    class="fi-rs-sign-out ml-15"></i></button>
+            </div>
+
+    </div>
+</main>
+{% endblock content %}

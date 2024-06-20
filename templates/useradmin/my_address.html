@@ -1,0 +1,103 @@
+{% extends 'useradmin/base.html' %}
+{% load static %}
+{% block content %}  
+<head>
+    <style>
+        .save-btn {
+            font-size: 16px;
+        font-weight: 500;
+        padding: 15px 40px;
+        color: #ffffff;
+        border: none;
+        background-color: #3bb77e;
+        border: 1px solid #29a56c;
+        border-radius: 10px;
+        }
+    </style>
+</head>
+<section class="content-main">
+    <div class="content-header">
+        <h2 class="content-title">My address</h2>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row gx-5">
+                <div class="col-lg-12">
+                    <section class="content-body p-xl-4">
+                        <div class="row">
+                            <div>
+                                <form class="mb-4" method="POST" action="{% url 'useradmin:my_address'%}"> 
+                                    {% csrf_token %}
+                                    <div class="card-hdeader mb-20">
+                                        <h5>Add Address</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6 mb-3">
+                                            <input placeholder="Address" required class="form-control"
+                                                name="address" type="text" />
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input placeholder="Code Postal" required class="form-control"
+                                                name="cp" />
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input placeholder="State" required class="form-control"
+                                                name="state" />
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input placeholder="Country" required class="form-control"
+                                                name="country" />
+                                        </div>
+                                        <div class="col-md-12 mt-20">
+                                            <button type="submit"
+                                                class="save-btn btn-fill-out submit font-weight-bold"
+                                                name="submit" value="Submit">Save Address</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <hr>
+                            <br>
+                            {% for a in address %}
+                            <div class="col-lg-6">
+                                <div class="card mb-3 mb-lg-0">
+
+                                    <div class="card-header">
+                                        <h4 class="mb-0">Address {{ forloop.counter }}</h4>
+                                    </div>
+                                    <div class="card-body border rounded ">
+                                        <address>
+                                            <p>Address :{{ a.address }}</p>
+                                            <p>Country :{{ a.country }}</p>
+                                            <p>State :{{ a.state }}</p>
+                                            <p>Postal Code :{{ a.cp }}</p>
+                                        </address>
+                                        <br>
+                                        {% if a.status %}
+                                        <i data-address-id="{{ a.id }}"
+                                            class="fa fa-check-circle text-success check{{ a.id }} check"></i>
+                                        <button data-address-id="{{ a.id }}" style="display: none;"
+                                            class="save-btn make-default-address button{{ a.id }} action_btn">Make
+                                            Default</button>
+
+                                        {% else %}
+                                        <i data-address-id="{{ a.id }}" style="display: none;"
+                                            class="fa fa-check-circle text-success check check{{ a.id }}"></i>
+                                        <button data-address-id="{{ a.id }}"
+                                            class="save-btn make-default-address button{{ a.id }} action_btn">Make
+                                            Default</button>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}  

@@ -1,0 +1,87 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+
+    <main class="main pages">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                    <span></span> Pages <span></span> About us
+                </div>
+            </div>
+        </div>
+        <div class="page-content pt-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-10 col-lg-12 m-auto">
+                        <section class="row align-items-center mb-50">
+                            <div class="col-lg-6">
+                                <img src="{% static 'assets/imgs/page/pexels-anete-lusina-5247966.jpg' %}" alt="" class="border-radius-15 mb-md-3 mb-lg-0 mb-sm-4" />
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="pl-25">
+                                    <h2 class="mb-30">Welcome to Shahd Market</h2>
+                                    <p class="mb-25">Welcome to Shahd Market, your premier destination for high-quality honey and honey-based products. At Shahd Market, we pride ourselves on offering a wide range of pure, natural honey sourced from the best apiaries. Our commitment to excellence ensures that every jar of honey you purchase is not only delicious but also packed with health benefits. What sets us apart is our dedication to customer satisfaction; we provide detailed product information, easy navigation, and secure payment options on our user-friendly website.</p>
+                                    <div class="carausel-3-columns-cover position-relative">
+                                        <div id="carausel-3-columns-arrows"></div>
+                                        <div class="carausel-3-columns" id="carausel-3-columns">
+                                            <img src="{% static 'assets/imgs/page/pexels-gabby-k-7144977.jpg' %}" alt="" />
+                                            <img src="{% static 'assets/imgs/page/pexels-abnerlobo-15128147.jpg' %}" alt="" />
+                                            <img src="{% static 'assets/imgs/page/pexels-cup-of-couple-7656593.jpg' %}" alt="" />
+                                            <img src="{% static 'assets/imgs/page/pexels-alesiakozik-6632444.jpg' %}" alt="" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="text-center mb-50">
+                            <h2 class="title style-3 mb-40">What We Provide?</h2>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6 mb-24">
+                                    <div class="featured-card">
+                                        <img src="{% static 'assets/imgs/theme/icons/icon-1.svg' %}" alt="" />
+                                        <h4>Best Prices & Offers</h4>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 mb-24">
+                                    <div class="featured-card">
+                                        <img src="{% static 'assets/imgs/theme/icons/icon-2.svg' %}" alt="" />
+                                        <h4>Wide Assortment</h4>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 mb-24">
+                                    <div class="featured-card">
+                                        <img src="{% static 'assets/imgs/theme/icons/icon-3.svg' %}" alt="" />
+                                        <h4>Secured Payment</h4>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 mb-24">
+                                    <div class="featured-card">
+                                        <img src="{% static 'assets/imgs/theme/icons/icon-4.svg' %}" alt="" />
+                                        <h4>Easy Checkout</h4>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 mb-24">
+                                    <div class="featured-card">
+                                        <img src="{% static 'assets/imgs/theme/icons/icon-5.svg' %}" alt="" />
+                                        <h4>100% Satisfaction</h4>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 mb-24">
+                                    <div class="featured-card">
+                                        <img src="{% static 'assets/imgs/theme/icons/icon-6.svg' %}" alt="" />
+                                        <h4>Great Daily Deal</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        
+                    </div>
+                </div>
+            </div>
+       
+      
+        </div>
+    </main>
+{% endblock content %}

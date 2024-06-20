@@ -1,0 +1,175 @@
+{% extends 'useradmin/base.html' %}
+{% load static %}
+
+{% block content %}
+  
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Dashboard</h2>
+            {% if user.is_superuser %}
+            <p>Whole data about your business here</p>
+            {% else %}
+            <p>Whole data about your orders here</p>
+            {% endif %}
+        </div>
+        {% if user.is_superuser %}
+
+        <div>
+            <a href="{% url 'useradmin:dashboard-add-products'%}" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Create Product</a>
+        </div>
+        {% endif %}
+
+    </div>
+    {% if user.is_superuser %}
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Revenue</h6>
+                        <span>${{ revenue.total_price|floatformat:2 }}</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Orders</h6>
+                        <span>{{total_orders_count.count}}</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Products</h6>
+                        <span>{{all_products.count}}</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Monthly Earning</h6>
+                        <span>${{ monthly_revenue.total_price|floatformat:2 }}</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <header class="card-header">
+            <h4 class="card-title">Latest orders</h4>
+        </header>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="table-responsive">
+                    <table class="table align-middle table-nowrap mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                
+                                <th class="align-middle" scope="col">Order ID</th>
+                                <th class="align-middle" scope="col">Name</th>
+                                <th class="align-middle" scope="col">Email</th>
+                                <th class="align-middle" scope="col">Phone</th>
+                                <th class="align-middle" scope="col">Date</th>
+                                <th class="align-middle" scope="col">Total</th>
+                                <th class="align-middle" scope="col">Payment Status</th>
+                                <th class="align-middle" scope="col">View Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for l in latest_orders %}
+                            <tr>
+                                <td><a href="#" class="fw-bold">#{{l.oid}}</a></td>
+                                <td>{{l.full_name|title}}</td>
+                                <td>{{l.email}}</td>
+                                <td>{{l.phone}}</td>
+                                <td>{{l.order_date}}</td>
+                                <td>${{l.total_price}}</td>
+                                <td>
+                                    {% if l.paid_status == True %}
+                                    <span class="badge badge-pill badge-soft-success">Paid</span>
+                                    {% else %}
+                                    <span class="badge badge-pill badge-soft-danger">Not Paid</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'useradmin:order_detail' l.id %}" class="btn btn-xs"> View details</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif%}
+    <div class="tab-content account dashboard-content pl-20 mt-30">
+        <div class="tab-pane fade active show" id="dashboard" role="tabpanel"
+            aria-labelledby="dashboard-tab">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Hello {{request.user|title}}!</h3>
+                </div>
+                <div class="card-body">
+                    <p>
+                        From your account dashboard. you can easily check &amp; view your <a
+                            href="#">recent orders</a>,<br />
+                        manage your <a href="#">shipping and billing addresses</a> and <a
+                            href="#">edit your password and account details.</a>
+                    </p>
+                </div>
+                <div style="height: fit-content; width: 600px; object-fit: cover; padding-left : 20px; margin-bottom : 30px; ">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+    
+    <script>
+        const ctx = document.getElementById('myChart');
+        const data = {
+    
+            labels: {{ month_order| safe }},
+            datasets: [{
+            label: 'Orders',
+            backgroundColor: 'rgb(59, 183, 126)',
+            borderColor: 'rgb(59, 183, 126)',
+            data: {{ total_orders| safe }},
+                }],
+            
+        }
+    
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                tooltips: { enabled: false },
+                hover: { mode: null },
+            }
+        };
+    
+        new Chart(ctx, config);
+    </script>
+</section>
+
+{% endblock content %}
+        

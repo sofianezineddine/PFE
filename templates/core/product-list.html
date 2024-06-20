@@ -1,0 +1,291 @@
+{% extends 'partials/base.html'%}
+{% load static %}
+
+{% block content %}
+
+<head>
+    <style>
+        input[type="range"] {
+            -webkit-appearance: none;
+            margin-right: 15px;
+            height: 7px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 5px;
+            background-image: linear-gradient(#3bb77e, #3bb77e);
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #3bb77e;
+            cursor: ew-resize;
+            box-shadow: 0 0 2px 0 #555;
+            transition: background .3s ease-in-out;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            -webkit-appearance: none;
+            box-shadow: none;
+            border: none;
+            background: transparent;
+        }
+
+      
+
+            button.add-to-cart-btn{
+                color: #3bb77e;
+                border: none;
+            }
+    
+            button.add-to-cart-btn:hover{
+                color: white;
+            }
+        
+
+            .add-favoris {
+                display: flex;
+                justify-content: space-between;
+            }
+            .add-favoris button{
+              display: block;
+              flex: 1;
+            }
+            
+            .deals{
+                display: grid;
+                grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+                gap: 20px;
+            }
+    </style>
+
+
+<!--End header-->
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <!-- <div class="breadcrumb">
+                <a href="{% url 'core:index' %}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                <span></span> Shop <span></span> Fillter
+            </div> -->
+            <div class="archive-header">
+                <div class="row align-items-center">
+                    <div class="col-xl-3">
+                        <h1 class="mb-15">Products</h1>
+                        <div class="breadcrumb">
+                            <a href="{% url 'core:index' %}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                            <span></span> Shop <span></span> Fillter
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container mb-30 mt-30">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <a class="shop-filter-toogle" href="#">
+                            <span class="fi-rs-filter mr-5"></span>
+                            Filters
+                            <i class="fi-rs-angle-small-down angle-down"></i>
+                            <i class="fi-rs-angle-small-up angle-up"></i>
+                        </a>
+                        <div class="shop-product-fillter-header">
+                            <div class="row">
+                                
+                                <div class="col-xl-3 col-lg-6 col-md-6 mb-lg-0 mb-md-2 mb-sm-2">
+                                    <div class="card">
+                                        <h5 class="mb-30">By Categories</h5>
+                                        <div class="d-flex">
+                                            <div class="custome-checkbox mr-80">
+                                                {% for c in categories %}
+                                                <input class="form-check-input filter-checkbox" type="checkbox"
+                                                    name="checkbox" id="{{c.id}}"  value="{{c.id }}"
+                                                    data-filter="category" />
+                                                <label class="form-check-label"
+                                                    for="{{c.id}}"><span>{{c.title}}</span></label>
+                                                <br>
+                                                {% endfor%}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-3 col-lg-6 col-md-6 mb-lg-0 mb-md-2 mb-sm-2">
+                                    <div class="card">
+                                        <h5 class="mb-30">By Colors</h5>
+                                        <div class="d-flex">
+                                            <div class="custome-checkbox mr-80">
+                                                {% for c in colors %}
+                                                <input class="form-check-input filter-checkbox" type="checkbox"
+                                                    name="checkbox" id="{{c}}" value="{{ c }}"
+                                                    data-filter="color" />
+                                                <label class="form-check-label"
+                                                    for="{{c}}"><span>{{c}}</span></label>
+                                                <br>
+                                                {% endfor%}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-md-6 mb-lg-0 mb-md-2 mb-sm-2">
+                                    <div class="card">
+                                        <h5 class="mb-30">By Origins</h5>
+                                        <div class="d-flex">
+                                            <div class="custome-checkbox mr-80">
+                                                {% for o in origins %}
+                                                <input class="form-check-input filter-checkbox" type="checkbox"
+                                                    name="checkbox" id="{{o}}" value="{{ o }}"
+                                                    data-filter="origin" />
+                                                <label class="form-check-label"
+                                                    for="{{o}}"><span>{{o}}</span></label>
+                                                <br>
+                                                {% endfor%}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-xl-3 col-lg-6 col-md-6 mb-lg-0 mb-md-5 mb-sm-5">
+                                    <div class="card">
+                                        <h5 class="mb-10">By Price</h5>
+                                        <div class="sidebar-widget price_range range">
+                                            <div class="price-filter mb-20">
+                                                <div class="price-filter-inner">
+                                                    <div id="slidder-range" class="mb-20"></div>
+                                                    <input type="range" name="ranDge" value="{{ min_max_price.price__max|floatformat:2 }}" class="slider-range" id="range" min="{{ min_max_price.price__min }}" max="{{ min_max_price.price__max }}" oninput="max_price.value=this.value">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="caption">From: <strong id="slider-range-value1" class="text-brand">${{ min_max_price.price__min|floatformat:2 }}</strong></div>
+                                                        <div class="caption">To: <strong id="slider-range-value2" class="text-brand">${{ min_max_price.price__max|floatformat:2 }}</strong></div>
+                                                    </div>
+                                                    <input type="number"  name="" value="{{ min_max_price.price__max|floatformat:2 }}" id="max_price" min="{{ min_max_price.price__min }}" max="{{ min_max_price.price__max }}" placeholder="Current Price" onkeyup="range.value=this.value">
+                                                </div>
+                                            </div>
+                                            <div class="custome-checkbox">
+                                                <button class="btn mt-20 w-100" type="button" id="price-filter-btn">Filter</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div id="filtered-product">
+                            <div class="shop-product-fillter">
+                                <div class="totall-product">
+                                    <p>We found <strong class="text-brand">{{products.count}}</strong> items for you!
+                                    </p>
+                                </div>
+                                <div class="sort-by-product-area">
+                                    <div class="sort-by-cover mr-10">
+                                        <div class="sort-by-product-wrap">
+                                            <div class="sort-by">
+                                                <span><i class="fi-rs-apps"></i>Show:</span>
+                                            </div>
+                                            <div class="sort-by-dropdown-wrap">
+                                                <span> 50 <i class="fi-rs-angle-small-down"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="sort-by-dropdown">
+                                            <ul>
+                                                <li><a class="active" href="#">50</a></li>
+                                                <li><a href="#">100</a></li>
+                                                <li><a href="#">150</a></li>
+                                                <li><a href="#">200</a></li>
+                                                <li><a href="#">All</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="sort-by-cover">
+                                        <div class="sort-by-product-wrap">
+                                            <div class="sort-by">
+                                                <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
+                                            </div>
+                                            <div class="sort-by-dropdown-wrap">
+                                                <span> Featured <i class="fi-rs-angle-small-down"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="sort-by-dropdown">
+                                            <ul>
+                                                <li><a class="active" href="#">Featured</a></li>
+                                                <li><a href="#">Price: Low to High</a></li>
+                                                <li><a href="#">Price: High to Low</a></li>
+                                                <li><a href="#">Release Date</a></li>
+                                                <li><a href="#">Avg. Rating</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row product-grid">
+                                {% for p in products %}
+                                <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                                    <div class="product-cart-wrap mb-30">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="{% url 'core:product-detail' p.pid %}">
+                                                    <img class="default-img" src="{{p.image.url}}" alt="" />
+                                                    <img class="hover-img" src="{{p.image.url}}" alt="" />
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Add To Wishlist"  class="action-btn add-to-wishlist" data-product-item="{{p.id}}"><i class="fi-rs-heart"></i></a>
+                                                <!-- <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i
+                                                        class="fi-rs-shuffle"></i></a> -->
+                                                <a  href="{% url 'core:product-detail' p.pid %}"   aria-label="Quick view" class="action-btn"><i class="fi-rs-eye"></i></a> 
+                                            </div>
+                                            {% if p.deals %}
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="hot">-{{ p.get_precentage | floatformat:0 }}%</span>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="{% url 'core:category-product-list' p.category.cid %}">{{p.category.title}}</a>
+                                            </div>
+                                            <h2><a href="{% url 'core:product-detail' p.pid %}">{{ p.title }}</a>
+                                            </h2>
+                                            <div class="product-rate-cover">
+                                                <div class="product-rate d-inline-block">
+                                                    <div class="product-rating" style="width: 90%"></div>
+                                                </div>
+                                                <span class="font-small ml-5 text-muted"> (4.0)</span>
+                                            </div>
+                                                <div class="product-card-bottom">
+                                                    <div class="product-price">
+                                                        <span>$</span><span class="current-product-price-{{p.id}}">{{ p.price }}</span>
+                                                        {% if p.deals%}
+                                                        <span class="old-price">${{ p.old_price }}</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+
+                                                <div class="product-card-bottom add-cart">
+                                                    <div class="add-cart">
+
+                                                        <input type="hidden" value="1" name="" id="product-quantity" class="w-25 mb-20 product-quantity-{{p.id}}" max="{{ p.total_weight }}">
+                                                        <input type="hidden" name="" id="" class="product-pid-{{p.id}}" value="{{p.pid}}">
+                                                        <input type="hidden" name="" id="" class="product-image-{{p.id}}" value="{{p.image.url}}">
+                                                        <input type="hidden" class="product-id-{{p.id}}" value="{{ p.id }}" name="" id="">
+                                                        <input type="hidden" class="product-title-{{p.id}}" value="{{ p.title }}" name="" id="">
+                                                        <div class="add-favoris" >
+                                                            <button class="add add-to-cart-btn b-none" data-index="{{ p.id }}" ><i class="fi-rs-shopping-cart mr-5"></i>Add </button>
+                                                            <button style="border: none; background: none;" class="add-to-wishlist" data-product-item="{{p.id}}"><i class="fi-rs-heart" style="fill: aqua;"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+</main>
+{% endblock content %}
