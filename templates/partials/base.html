@@ -149,11 +149,7 @@
                                             {% endif %}
                                         </li>
                                         {% endfor %}
-                                        <!-- <li>
-                                            <a href="http://127.0.0.1:8000/fr/"><img src="{% static 'assets/imgs/theme/flag-fr.png' %}"
-                                                    alt="" />Français</a>
-                                        </li> -->
-
+                               
                                     </ul>
                                 </li>
                                 <li><span style="margin-right: 5px;">Need help?</span><strong class="">
@@ -398,7 +394,6 @@
             <div class="mobile-header-content-area">
                 <div class="mobile-search search-style-3 mobile-header-border">
                     <form action="{% url 'core:search'%}" method="GET">
-
                         <input type="text" placeholder="Search for items..." name="q" />
                         <button class="fas fa-search"></button>
                     </form>
