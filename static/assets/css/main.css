@@ -12230,7 +12230,7 @@ button.add-to-cart-btn {
   }
 }
 
-@media only screen and (max-width:767px) and (max-width: 992px) {
+@media (max-width: 992px) {
   .mobile-promotion {
     display: block;
     padding: 7px 0;
