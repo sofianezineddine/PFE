@@ -210,8 +210,8 @@ def search_view(request):
 
     productss= Product.objects.all()
     products = Product.objects.filter(title__icontains=query).order_by("-date")
-    
-    if cat != "all":
+
+    if cat != "all" and cat is not None:
         products = products.filter(category = cat)
 
     colors = []
@@ -230,6 +230,8 @@ def search_view(request):
         "colors":colors,
     }
     return render(request, "core/search.html", context)
+
+
 
 # Filter---------------------------------------------------------------------------------------
 
