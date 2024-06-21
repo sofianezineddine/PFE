@@ -207,18 +207,19 @@ def ajax_add_review(request,pid):
 def search_view(request):
     query = request.GET.get("q")
     cat = request.GET.get("cat")
-
+    productss= Product.objects.all()
     products = Product.objects.filter(title__icontains=query).order_by("-date")
     if cat != "all":
         products = products.filter(category = cat)
 
     colors = []
     origins = []
-    for p in products:
+    for p in productss:
         if p.color not in colors :
             colors.append(p.color)
         if p.origin not in origins :
             origins.append(p.origin)
+
     context = {
         "products": products,
         "query": query,
