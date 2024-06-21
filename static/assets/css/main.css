@@ -12240,6 +12240,12 @@ button.add-to-cart-btn {
   }
 }
 
+@media (max-width:450px) {
+  .mobile-promotion {
+    display: none;
+  }
+}
+
 /*Mobile landscape*/
 
 @media only screen and (min-width: 576px) and (max-width: 767px) {
