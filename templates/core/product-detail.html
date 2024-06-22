@@ -157,7 +157,11 @@
                                             <div class="comments-area">
                                                 <div class="row">
                                                     <div class="col-lg-8">
+                                                        {%if reviews %}
                                                         <h4 class="mb-30">Customer reviews</h4>
+                                                        {% else %}
+                                                        <h4 class="mb-30">There is no reviews!</h4>
+                                                        {% endif %}
                                                         <div class="comment-list">
                                                             {% for review in reviews %}
                                                             <div class="single-comment justify-content-between d-flex mb-30">
