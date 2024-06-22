@@ -227,7 +227,7 @@ $(document).ready(function () {
         console.log("PRoduct ID:", product_id);
         console.log("PRoduct QTY:", product_quantity);
         console.log("Max wieght:", max_weight);
-        if (product_quantity > max_weight) {
+        if (product_quantity > max_weight || product_quantity <= 0) {
             alert("Quantite must between 1Kg and " + max_weight + "Kg")
             $(".product-qty-" + product_id).val(product_qty_origin)
             $(".product-qty-" + product_id).focus()
