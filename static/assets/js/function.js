@@ -152,7 +152,7 @@ $(document).ready(function () {
         console.log(typeof product_price)
         console.log(product_price)
 
-        if (quantity > max_weight) {
+        if (quantity > max_weight || quantity <= 0) {
             alert("Quantite must between 1Kg and " + max_weight + "Kg")
             $("#product-quantity").val(1)
             $("#product-quantity").focus()
