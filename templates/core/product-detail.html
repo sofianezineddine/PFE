@@ -58,14 +58,16 @@
                                         </span>
                                         {% endif %}
                                         <h2 class="title-detail">{{p.title}}</h2>
+                                        {% if average_rating.rating > 0 %}
                                         <div class="product-detail-rating">
                                             <div class="product-rate-cover text-end">
                                                 <div class="product-rate d-inline-block">
-                                                    <div class="product-rating" style="width: 90%"></div>
+                                                    <div class="product-rating" style="width: {{average_rating.rating * 2 * 100}}%"></div>
                                                 </div>
-                                                <span class="font-small ml-5 text-muted"> (4.0)</span>
+                                                <span class="font-small ml-5 text-muted"> {{ average_rating.rating|floatformat:1 }} </span>
                                             </div>
                                         </div>
+                                        {% endif %}
                                         <div class="clearfix product-price-cover">
                                             <div class="product-price primary-color float-left">
                                                 <span class="current-price text-brand">$</span><span  class="current-price text-brand current-product-price-{{p.id}}">{{p.price}}</span>
@@ -82,20 +84,9 @@
                                         <div class="short-desc mb-30">
                                             <p class="font-lg">{{p.specifications|truncatechars:150}}</p>
                                         </div>
-                                        <!-- <div class="attr-detail attr-size mb-30">
-                                            <strong class="mr-10">Size / Weight: </strong>
-                                            <ul class="list-filter size-filter font-small">
-                                                <li class="active"><a href="#">1kg</a></li>
-                                                <li><a href="#">500g</a></li>
-                                                <li><a href="#">250g</a></li>
-                                            </ul>
-                                        </div> -->
+                                      
                                         <div class="detail-extralink mb-50">
-                                            <!-- <div class="detail-qty border radius">
-                                                <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                                <span class="qty-val">1</span>
-                                                <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
-                                            </div> -->
+                                            
                                             <input type="number" value="1" name="" id="product-quantity" class="w-25 mb-10 product-quantity-{{p.id}}"  max="{{ p.total_weight }}">   <span style="font-size: 20px; color : #3bb77e; margin-left: 5px; font-weight: bold;">Kg</span>
                                             <br>
                                             <div class="product-extra-link2">
