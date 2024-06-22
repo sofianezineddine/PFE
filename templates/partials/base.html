@@ -512,7 +512,7 @@
                                         Market</span></p>
                                 <form class="form-subcriber d-flex" method="POST" action="{% url 'core:subscribe' %}">
                                     {% csrf_token %}
-                                    <input type="email" placeholder="Your emaill address" name="email" />
+                                    <input type="email" placeholder="Your emaill address" name="email" required/>
                                     <button class="btn" type="submit">Subscribe</button>
                                 </form>
                             </div>
