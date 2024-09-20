@@ -77,9 +77,9 @@
                             </div>
                             <div class="product-content-wrap">
                                 <div class="product-category">
-                                    <a href="shop-grid-right.html">{{p.category.title}}</a>
+                                    <a href="{% url 'core:category-product-list' c.cid %}">{{p.category.title}}</a>
                                 </div>
-                                <h2><a href="{% url 'core:product-detail' p.pid %}">{{ p.title }}</a>
+                                <h2><a href="{% url 'core:product-detail' p.category.cid %}">{{ p.title }}</a>
                                 </h2>
                                 <div class="product-rate-cover">
                                     <div class="product-rate d-inline-block">

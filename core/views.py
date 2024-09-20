@@ -499,7 +499,6 @@ def checkout(request, oid):
         "page_name":"Checkout",
         'payment_button_form':payment_button_form,
         "cart_data":cart_data,
-
     }
     return render(request, "core/checkout.html", context)
 
